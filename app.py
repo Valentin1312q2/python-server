@@ -1,5 +1,6 @@
 from flask import Flask, request
 from dataManager import dataManager
+import json
 
 app = Flask(__name__)
 
@@ -9,8 +10,10 @@ def login():
     data = request.json
     username = data["username"]
     password = data["password"]
-
-    user_data = dataManager.read("data.json")
+    
+    with open("data.json", "r") as file:
+            user_data = json.load(file)
+    #user_data = dataManager.read("data.json")
 
     for id, data in user_data.items():
         if data["name"] == username and data["password"] == password:
