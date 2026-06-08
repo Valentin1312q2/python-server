@@ -6,46 +6,12 @@ app = Flask(__name__)
 @app.route("/login", methods=["POST"])
 def login():
     
-    data = request.json
-    username = data["username"]
-    password = data["password"]
+    sent_data = request.json
+    username = sent_data["username"]
+    password = sent_data["password"]
 
-    #user_data = dataManager.read("data.json")
-    user_data = {
-    "1": {
-        "name": "Valentin",
-        "password": "1312",
-        "birth_date": "",
-        "note": "",
-        "mode": "dark",
-        "logged_in": True,
-        "disabled": False,
-        "deleted": False,
-        "removed_features": [],
-        "admin": False,
-        "last_change": [
-            "registered",
-            "2026-06-06 19:34:21"
-        ]
-    },
-    "2": {
-        "name": "test",
-        "password": "1312",
-        "birth_date": "",
-        "note": "",
-        "mode": "dark",
-        "logged_in": True,
-        "disabled": False,
-        "deleted": False,
-        "removed_features": [],
-        "admin": False,
-        "last_change": [
-            "registered",
-            ""
-        ]
-    }
-}
-
+    user_data = dataManager.read("data.json")
+    
     for id, data in user_data.items():
         if data["name"] == username and data["password"] == password:
             return {"success" : True, "user_data" : data}
@@ -55,9 +21,9 @@ def login():
 @app.route("/register", methods=["POST"])
 def register():
     
-    data = request.json
-    username = data["username"]
-    password = data["password"]
+    sent_data = request.json
+    username = sent_data["username"]
+    password = sent_data["password"]
 
     forbidden_chars = [" ", ".", ",", ";", ":", "[", "]", "(", ")", "{", "}", "&", "%", "$", "!", "/", "=", "?", "#", "<", ">", "|", "+", "-", "ä", "Ä", "ö", "Ö", "ü", "Ü"]
 
