@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from dataManager import dataManager
 
 app = Flask(__name__)
@@ -11,116 +11,14 @@ def login():
     password = sent_data["password"]
 
 
-    user_data = {
-
-    "1": {
-        "name": "Valentin",
-        "password": "1312",
-        "birth_date": "01.03.2012",
-        "note": "Hello World!",
-        "mode": "dark",
-        "logged_in": True,
-        "disabled": False,
-        "deleted": False,
-        "removed_features": [],
-        "admin": True,
-        "last_change": [
-            "",
-            ""
-        ]
-    },
-    "2": {
-        "name": "acc2",
-        "password": "a2",
-        "birth_date": "16.05.1972",
-        "note": "notiz",
-        "mode": "dark",
-        "logged_in": False,
-        "disabled": False,
-        "deleted": False,
-        "removed_features": [],
-        "admin": False,
-        "last_change": [
-            "",
-            ""
-        ]
-    },
-    "3": {
-        "name": "Valentin1",
-        "password": "1312",
-        "birth_date": "01.03.2012",
-        "note": "Hello World 2!",
-        "mode": "dark",
-        "logged_in": False,
-        "disabled": False,
-        "deleted": False,
-        "removed_features": [],
-        "admin": False,
-        "last_change": [
-            "",
-            ""
-        ]
-    },
-    "4": {
-        "name": "test",
-        "password": "1312",
-        "birth_date": "01.03.2012",
-        "note": "100",
-        "mode": "dark",
-        "logged_in": False,
-        "disabled": False,
-        "deleted": False,
-        "removed_features": [],
-        "admin": True,
-        "last_change": [
-            "",
-            ""
-        ]
-    },
-    "5": {
-        "name": "time",
-        "password": "1234",
-        "birth_date": "",
-        "note": "",
-        "mode": "dark",
-        "logged_in": False,
-        "disabled": False,
-        "deleted": False,
-        "removed_features": [],
-        "admin": False,
-        "last_change": [
-            "register",
-            "2026-05-26 19:11:43"
-        ]
-    },
-    ".6": {
-        "name": "gwgw",
-        "password": "qwgq2wgw",
-        "birth_date": "",
-        "note": "",
-        "mode": "dark",
-        "logged_in": False,
-        "disabled": True,
-        "deleted": True,
-        "removed_features": [],
-        "admin": False,
-        "last_change": [
-            "registered",
-            "2026-05-26 19:28:41"
-        ]
-    }
-}
-    data_user = dataManager.read("data.json")
+    
+    user_data = dataManager.read("data.json")
 
     
-    for id, data in data_user.items():
+    for id, data in user_data.items():
         if data["name"] == username and data["password"] == password:
-            return {"success" : True, "user_data" : data}
-    return {"success" : False}
-    #if data_user["1"]["name"] == username and data_user["1"]["password"] == password:
-    #    return {"success" : True, "user_data" : data_user["1"]}
-    #else:
-    #    return {"success" : False, "user_data" : data_user["1"]}
+            return jsonify({"success" : True, "user_data" : data})
+    return jsonify({"success" : False})
 
 
 @app.route("/register", methods=["POST"])
@@ -137,19 +35,19 @@ def register():
     for id, data in user_data.items():
         for char in username:
                 if char in forbidden_chars:
-                    return {"success" : False, "message" : "Username contains forbidden characters!"}
+                    return jsonify({"success" : False, "message" : "Username contains forbidden characters!"})
                 
         if len(username) > 20:
-            return {"success" : False, "message" : "Username is too long!"}
+            return jsonify({"success" : False, "message" : "Username is too long!"})
         if not username:
-            return {"success" : False, "message" : "Username cannot be empty!"}        
+            return jsonify({"success" : False, "message" : "Username cannot be empty!"})        
         if data["name"] == username:
-            return {"success" : False, "message" : "Username already exists!"}
+            return jsonify({"success" : False, "message" : "Username already exists!"})
         
         if not password:
-            return {"success" : False, "message" : "Password cannot be empty!"}
+            return jsonify({"success" : False, "message" : "Password cannot be empty!"})
         if len(password) < 4:
-            return {"success" : False, "message" : "Password is too short!"}
+            return jsonify({"success" : False, "message" : "Password is too short!"})
     user_data[len(user_data)+1] = {
         "name" : username,
         "password" : password,
@@ -165,7 +63,34 @@ def register():
         }
         
     dataManager.write("data.json", user_data)
-    return {"success" : True, "message" : "User registered successfully!"}
+    return jsonify({"success" : True, "message" : "User registered successfully!"})
+
+@app.route("/export", methods=["GET"])
+def export():
+
+    user_data = dataManager.read("data.json")
+    return jsonify(user_data)
+
+@app.route("/read", methods=["POST"])
+def read():
+    sent_data = request.json
+    user_id = sent_data["user_id"]
+    user_data = dataManager.read("data.json")
+    if user_id in user_data:
+        return jsonify({"success" : True, "user_data" : user_data[user_id]})
+    return jsonify({"success" : False, "message" : "User not found!"})
+
+@app.route("/write", methods=["POST"])
+def write():
+    sent_data = request.json
+    user_id = sent_data["user_id"]
+    updated_data = sent_data["updated_data"]
+    user_data = dataManager.read("data.json")
+    if user_id in user_data:
+        user_data[user_id].update(updated_data)
+        dataManager.write("data.json", user_data)
+        return jsonify({"success" : True, "message" : "User data updated successfully!"})
+    return jsonify({"success" : False, "message" : "User not found!"})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
