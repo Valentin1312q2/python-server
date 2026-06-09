@@ -10,7 +10,107 @@ def login():
     username = sent_data["username"]
     password = sent_data["password"]
 
-    user_data = dataManager.read("data.json")
+
+    user_data = {
+
+    "1": {
+        "name": "Valentin",
+        "password": "1312",
+        "birth_date": "01.03.2012",
+        "note": "Hello World!",
+        "mode": "dark",
+        "logged_in": true,
+        "disabled": false,
+        "deleted": false,
+        "removed_features": [],
+        "admin": true,
+        "last_change": [
+            "",
+            ""
+        ]
+    },
+    "2": {
+        "name": "acc2",
+        "password": "a2",
+        "birth_date": "16.05.1972",
+        "note": "notiz",
+        "mode": "dark",
+        "logged_in": false,
+        "disabled": false,
+        "deleted": false,
+        "removed_features": [],
+        "admin": false,
+        "last_change": [
+            "",
+            ""
+        ]
+    },
+    "3": {
+        "name": "Valentin1",
+        "password": "1312",
+        "birth_date": "01.03.2012",
+        "note": "Hello World 2!",
+        "mode": "dark",
+        "logged_in": false,
+        "disabled": false,
+        "deleted": false,
+        "removed_features": [],
+        "admin": false,
+        "last_change": [
+            "",
+            ""
+        ]
+    },
+    "4": {
+        "name": "test",
+        "password": "1312",
+        "birth_date": "01.03.2012",
+        "note": "100",
+        "mode": "dark",
+        "logged_in": false,
+        "disabled": false,
+        "deleted": false,
+        "removed_features": [],
+        "admin": true,
+        "last_change": [
+            "",
+            ""
+        ]
+    },
+    "5": {
+        "name": "time",
+        "password": "1234",
+        "birth_date": "",
+        "note": "",
+        "mode": "dark",
+        "logged_in": false,
+        "disabled": false,
+        "deleted": false,
+        "removed_features": [],
+        "admin": false,
+        "last_change": [
+            "register",
+            "2026-05-26 19:11:43"
+        ]
+    },
+    ".6": {
+        "name": "gwgw",
+        "password": "qwgq2wgw",
+        "birth_date": "",
+        "note": "",
+        "mode": "dark",
+        "logged_in": false,
+        "disabled": true,
+        "deleted": true,
+        "removed_features": [],
+        "admin": false,
+        "last_change": [
+            "registered",
+            "2026-05-26 19:28:41"
+        ]
+    }
+}
+
     
     #for id, data in user_data.items():
     #    if data["name"] == username and data["password"] == password:
