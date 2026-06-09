@@ -18,6 +18,7 @@ def login():
     for id, data in user_data.items():
         if data["name"] == username and data["password"] == password:
             return jsonify({"success" : True, "user_data" : data})
+        print(data["name"])
     return jsonify({"success" : False})
 
 
