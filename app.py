@@ -150,19 +150,19 @@ def register():
             return {"success" : False, "message" : "Password cannot be empty!"}
         if len(password) < 4:
             return {"success" : False, "message" : "Password is too short!"}
-        user_data[len(user_data)+1] = {
-            "name" : username,
-            "password" : password,
-            "birth_date" : "",
-            "note" : "",
-            "mode" : "dark",
-            "logged_in" : True,
-            "disabled" : False,
-            "deleted" : False,
-            "removed_features" : [],
-            "admin" : False,
-            "last_change" : ["registered", ""]
-            }
+    user_data[len(user_data)+1] = {
+        "name" : username,
+        "password" : password,
+        "birth_date" : "",
+        "note" : "",
+        "mode" : "dark",
+        "logged_in" : True,
+        "disabled" : False,
+        "deleted" : False,
+        "removed_features" : [],
+        "admin" : False,
+        "last_change" : ["registered", ""]
+        }
         
     dataManager.write("data.json", user_data)
     return {"success" : True, "message" : "User registered successfully!"}
