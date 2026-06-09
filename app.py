@@ -117,7 +117,7 @@ def login():
     #        return {"success" : True, "user_data" : data}
     #return {"success" : False}
     if user_data["1"]["name"] == username and user_data["1"]["password"] == password:
-        return {"success" : True, "user_data" : user_data[1]}
+        return {"success" : True, "user_data" : user_data["1"]}
 
 
 @app.route("/register", methods=["POST"])
