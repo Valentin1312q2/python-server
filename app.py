@@ -116,7 +116,7 @@ def login():
     #    if data["name"] == username and data["password"] == password:
     #        return {"success" : True, "user_data" : data}
     #return {"success" : False}
-    if user_data[1]["name"] == username and user_data[1]["password"] == password:
+    if user_data["1"]["name"] == username and user_data["1"]["password"] == password:
         return {"success" : True, "user_data" : user_data[1]}
 
 
