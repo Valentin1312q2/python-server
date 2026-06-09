@@ -110,16 +110,17 @@ def login():
         ]
     }
 }
+    data_user = dataManager.read("data.json")
 
     
     #for id, data in user_data.items():
     #    if data["name"] == username and data["password"] == password:
     #        return {"success" : True, "user_data" : data}
     #return {"success" : False}
-    if user_data["1"]["name"] == username and user_data["1"]["password"] == password:
-        return {"success" : True, "user_data" : user_data["1"]}
+    if data_user["1"]["name"] == username and data_user["1"]["password"] == password:
+        return {"success" : True, "user_data" : data_user["1"]}
     else:
-        return {"success" : False, "user_data" : user_data["1"]}
+        return {"success" : False, "user_data" : data_user["1"]}
 
 
 @app.route("/register", methods=["POST"])
