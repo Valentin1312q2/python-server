@@ -1,5 +1,4 @@
 import json
-import os
 
 class dataManager:
     def __init__(self):
